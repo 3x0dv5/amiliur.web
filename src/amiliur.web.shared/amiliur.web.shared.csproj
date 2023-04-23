@@ -49,14 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Environments\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Update="README.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
 	</ItemGroup>
 
 </Project>

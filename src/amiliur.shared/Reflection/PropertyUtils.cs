@@ -38,7 +38,7 @@ public static class PropertyUtils
         return returnValue;
     }
 
-    public static bool SetPropertyValue(this object aClassObject, string propertyName, object value)
+    public static bool SetPropertyValue(this object aClassObject, string propertyName, object? value)
     {
         try
         {
@@ -304,5 +304,24 @@ public static class PropertyUtils
     public static T GetPropertyValue<T>(this object aClassObject, string propertyName)
     {
         return (T) aClassObject.GetPropertyValue(propertyName);
+    }
+
+    private static bool CanWriteIntoProperty(PropertyInfo? cP)
+    {
+        return cP != null && cP.CanWrite;
+    }
+
+    public static void CopyPropertyValue(object? sourceObj, object targetObj, string srcPropertyName, PropertyInfo targetProperty)
+    {
+        if (!CanWriteIntoProperty(targetProperty))
+            return;
+        
+        if (sourceObj == null)
+        {
+            targetObj.SetPropertyValue(targetProperty.Name, null);
+            return;
+        }
+
+        targetObj.SetPropertyValue(targetProperty.Name, sourceObj.GetPropertyValue(srcPropertyName));
     }
 }

@@ -1,9 +1,7 @@
-﻿
-using amiliur.shared.Json;
+﻿using amiliur.shared.Json;
 using amiliur.shared.Reflection;
-using amiliur.web.shared.Mapping;
 
-namespace Fig.Shared.DForms.DataMap;
+namespace amiliur.web.shared.Mapping;
 
 /// <summary>
 /// Para quando os objetos tem o mesmos nomes

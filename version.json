@@ -14,6 +14,6 @@
     "branchName": "release/{version}",
     "tagName": "{version}",
     "firstUnstableTag": "alpha",
-    "versionIncrement": "build"
+    "versionIncrement": "minor"
   }
 }

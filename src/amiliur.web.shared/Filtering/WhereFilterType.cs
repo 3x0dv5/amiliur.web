@@ -1,4 +1,4 @@
-﻿namespace Fig.App.Web.Shared.OldFields;
+﻿namespace amiliur.web.shared.Filtering;
 
 /// <summary>
 /// Type of elements comparison.

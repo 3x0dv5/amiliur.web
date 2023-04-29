@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -18,57 +17,46 @@
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <Description>Blazor package for amiliur</Description>
     </PropertyGroup>
-
     <ItemGroup>
         <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
-
-
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
-<!--    <PropertyGroup>-->
-<!--        <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
-<!--    </PropertyGroup>-->
+    <!--    <PropertyGroup>-->
+    <!--        <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
+    <!--    </PropertyGroup>-->
 
-<!--    <ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
-<!--        <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj" />-->
-<!--        <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj" />-->
-<!--    </ItemGroup>-->
-<!--    <ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
-<!--        <PackageReference Include="amiliur.security.shared" Version="$(ThisAssemblyVersion)" />-->
-<!--        <PackageReference Include="amiliur.web.shared" Version="$(ThisAssemblyVersion)" />-->
-<!--    </ItemGroup>-->
-
-    <ItemGroup>
-        <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj" />
-        <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj" />
-    </ItemGroup>
+    <!--    <ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
+    <!--        <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj" />-->
+    <!--        <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj" />-->
+    <!--    </ItemGroup>-->
+    <!--    <ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
+    <!--        <PackageReference Include="amiliur.security.shared" Version="$(ThisAssemblyVersion)" />-->
+    <!--        <PackageReference Include="amiliur.web.shared" Version="$(ThisAssemblyVersion)" />-->
+    <!--    </ItemGroup>-->
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-        <PackageReference Include="Serilog.Enrichers.Context" Version="4.6.0" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.1-dev-10338" />
+        <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj"/>
+        <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj"/>
     </ItemGroup>
-
-
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0-preview.3.23177.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.3.23177.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.0-preview.3.23177.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
+        <PackageReference Include="Serilog.Enrichers.Context" Version="4.6.0"/>
+        <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.1-dev-10338"/>
+    </ItemGroup>
     <ItemGroup>
         <None Update="README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-    </ItemGroup>
-
-
-    <ItemGroup>
-      
     </ItemGroup>
 
 </Project>

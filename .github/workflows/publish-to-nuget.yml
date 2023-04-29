@@ -1,0 +1,44 @@
+name: Publish to NuGet
+
+on:
+  push:
+    branches:
+      - 'release/*'
+      - 'main'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Nerdbank.GitVersioning
+      uses: dotnet/nbgv@master
+      id: nbgv
+      with:
+        setAllVars: true
+    - run:
+        echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Pack projects
+      run: dotnet pack --configuration Release --output ./output/
+      working-directory: './'
+    
+    - name: Publish amiliur.annotations to NuGet
+      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      working-directory: './output/'

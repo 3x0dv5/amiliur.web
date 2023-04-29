@@ -4,8 +4,6 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyVersion>0.1.1</AssemblyVersion>
-		<FileVersion>0.1.1</FileVersion>
 		<Authors>Rui Lima</Authors>
 		<Product>amiliur.web</Product>
 		<SignAssembly>False</SignAssembly>
@@ -19,7 +17,6 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<Description>amiliur web</Description>
-		<Version>0.1.1</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\LICENSE">
@@ -27,8 +24,24 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
+<!--	<PropertyGroup>-->
+<!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
+<!--	</PropertyGroup>-->
+
+<!--	<ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
+<!--		<ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />-->
+<!--	</ItemGroup>-->
+
+<!--	<ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
+<!--		<PackageReference Include="amiliur.security.shared" Version="$(ThisAssemblyVersion)" />-->
+<!--		<PackageReference Include="amiliur.shared" Version="$(ThisAssemblyVersion)" />-->
+<!--	</ItemGroup>-->
+
 	<ItemGroup>
-		<PackageReference Include="amiliur.shared" Version="0.1.1" />
+		<ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.2.0-eap2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0-preview.3.23177.8" />
 		<PackageReference Include="Serilog" Version="3.0.0-dev-01958" />

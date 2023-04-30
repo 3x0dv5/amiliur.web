@@ -48,6 +48,7 @@
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.2" />
 	</ItemGroup>
 
+	
 	<ItemGroup>
 	  <None Update="README.md">
 	    <Pack>True</Pack>
@@ -55,8 +56,15 @@
 	  </None>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
+	<PropertyGroup>
+		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(LocalEnvironment)' != ''">
+		<ProjectReference Include="..\..\..\amiliur.web\src\amiliur.shared\amiliur.shared.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(LocalEnvironment)' == ''">
+		<PackageReference Include="amiliur.shared" Version="1.1.*" />
 	</ItemGroup>
 
 </Project>

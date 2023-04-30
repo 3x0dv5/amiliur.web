@@ -24,23 +24,23 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-<!--	<PropertyGroup>-->
-<!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
-<!--	</PropertyGroup>-->
+	<!--	<PropertyGroup>-->
+	<!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
+	<!--	</PropertyGroup>-->
 
-<!--	<ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
-<!--		<ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />-->
-<!--	</ItemGroup>-->
+	<!--	<ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
+	<!--		<ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />-->
+	<!--	</ItemGroup>-->
 
-<!--	<ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
-<!--		<PackageReference Include="amiliur.security.shared" Version="$(ThisAssemblyVersion)" />-->
-<!--		<PackageReference Include="amiliur.shared" Version="$(ThisAssemblyVersion)" />-->
-<!--	</ItemGroup>-->
+	<!--	<ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
+	<!--		<PackageReference Include="amiliur.security.shared" Version="$(ThisAssemblyVersion)" />-->
+	<!--		<PackageReference Include="amiliur.shared" Version="$(ThisAssemblyVersion)" />-->
+	<!--	</ItemGroup>-->
 
 	<ItemGroup>
 		<ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.2.0-eap2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0-preview.3.23177.8" />
@@ -48,12 +48,12 @@
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.2" />
 	</ItemGroup>
 
-	
+
 	<ItemGroup>
-	  <None Update="README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -64,7 +64,7 @@
 		<ProjectReference Include="..\..\..\amiliur.web\src\amiliur.shared\amiliur.shared.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(LocalEnvironment)' == ''">
-		<PackageReference Include="amiliur.shared" Version="1.1.*" />
+		<PackageReference Include="amiliur.shared" Version="1.*-*" />
 	</ItemGroup>
 
 </Project>

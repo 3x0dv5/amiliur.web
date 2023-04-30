@@ -43,12 +43,12 @@
         <PackageReference Include="Radzen.Blazor" Version="4.13.3" />
     </ItemGroup>
 
-	<ItemGroup>
-		<None Update="README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Update="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
     <Target Name="PrintVariables" BeforeTargets="Build">
         <Message Importance="high" Text="LocalEnvironment: $(LocalEnvironment)" />
@@ -69,8 +69,14 @@
 <!--            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />-->
 <!--        </ItemGroup>-->
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(LocalEnvironment)' != ''">
         <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />
         <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />
     </ItemGroup>
+    <ItemGroup Condition="'$(LocalEnvironment)' == ''">
+        <PackageReference Include="amiliur.security.shared" Version="1.*-*" />
+        <PackageReference Include="amiliur.web.shared" Version="1.*-*" />
+    </ItemGroup>
+
+
 </Project>

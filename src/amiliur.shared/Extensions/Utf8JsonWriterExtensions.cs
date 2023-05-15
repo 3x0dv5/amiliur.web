@@ -30,27 +30,27 @@ public static class Utf8JsonWriterExtensions
             return WriteNumber(writer, propertyInfo, propertyValue);
         }
 
-        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(string))
+        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(string) || propertyValue is string)
         {
             return WriteString(writer, propertyInfo, propertyValue);
         }
 
-        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(char))
+        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(char) || propertyValue is char)
         {
             return WriteChar(writer, propertyInfo, propertyValue);
         }
 
-        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(bool))
+        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(bool) || propertyValue is bool)
         {
             return WriteBoolean(writer, propertyInfo, propertyValue);
         }
 
-        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(DateOnly))
+        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(DateOnly)  || propertyValue is DateOnly)
         {
             return WriteDateOnly(writer, propertyInfo, (DateOnly) propertyValue);
         }
 
-        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(DateTime))
+        if (propertyInfo.PropertyType.GetNonNullableType() == typeof(DateTime) || propertyValue is DateTime)
         {
             return WriteDateTime(writer, propertyInfo, (DateTime) propertyValue);
         }
@@ -73,7 +73,7 @@ public static class Utf8JsonWriterExtensions
             return true;
         }
 
-        throw new Exception($"Type {propertyInfo.PropertyType} serialization not supported. Property {propertyInfo.Name}");
+        throw new Exception($"Type {propertyInfo.PropertyType} serialization not supported. Property: {propertyInfo.Name} value: {propertyValue}");
     }
 
     private static bool WriteDateTime(Utf8JsonWriter writer, PropertyInfo propertyInfo, DateTime propertyValue)
@@ -133,13 +133,13 @@ public static class Utf8JsonWriterExtensions
 
         if (NumberUtils.IsInteger(propertyValue))
         {
-            if (propertyInfo.PropertyType.GetNonNullableType() == typeof(long))
+            if (propertyInfo.PropertyType.GetNonNullableType() == typeof(long) || propertyValue is long)
             {
                 writer.WriteNumber(propertyInfo.Name, (long) propertyValue);
                 return true;
             }
 
-            if (propertyInfo.PropertyType.GetNonNullableType() == typeof(int))
+            if (propertyInfo.PropertyType.GetNonNullableType() == typeof(int) || propertyValue is int )
             {
                 writer.WriteNumber(propertyInfo.Name, (int) propertyValue);
                 return true;

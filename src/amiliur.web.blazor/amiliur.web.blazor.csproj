@@ -1,35 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <Authors>Rui Lima</Authors>
-        <Product>amiliur.web</Product>
-        <SignAssembly>False</SignAssembly>
-        <PackageId>amiliur.web.blazor</PackageId>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <PackageProjectUrl>https://github.com/ruilimacom/amiliur.web</PackageProjectUrl>
-        <Copyright>MIT License</Copyright>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/ruilimacom/amiliur.web</RepositoryUrl>
-        <PackageTags>blazor</PackageTags>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <Description>Blazor package for amiliur</Description>
-    </PropertyGroup>
-    <ItemGroup>
-        <None Include="..\..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-    </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Rui Lima</Authors>
+		<Product>amiliur.web</Product>
+		<SignAssembly>False</SignAssembly>
+		<PackageId>amiliur.web.blazor</PackageId>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/ruilimacom/amiliur.web</PackageProjectUrl>
+		<Copyright>MIT License</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/ruilimacom/amiliur.web</RepositoryUrl>
+		<PackageTags>blazor</PackageTags>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<Description>Blazor package for amiliur</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 
-    <ItemGroup>
-        <SupportedPlatform Include="browser" />
-    </ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 
-    <ItemGroup>
+	<ItemGroup>
 
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0-preview.5.23302.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.5.23302.2" />
@@ -40,33 +40,37 @@
         <PackageReference Update="Nerdbank.GitVersioning">
           <Version>3.6.133</Version>
         </PackageReference>
+        <PackageReference Include="Radzen.Blazor" Version="4.12.1" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="README.md">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
     <Target Name="PrintVariables" BeforeTargets="Build">
         <Message Importance="high" Text="LocalEnvironment: $(LocalEnvironment)" />
     </Target>
-    
- 
-    
-    <PropertyGroup>
-        <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
-    </PropertyGroup>
-
-    <ItemGroup Condition="'$(LocalEnvironment)' != ''">
-        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />
-        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(LocalEnvironment)' == ''">
-        <PackageReference Include="amiliur.security.shared" Version="1.*-*" />
-        <PackageReference Include="amiliur.web.shared" Version="1.*-*" />
-    </ItemGroup>
 
 
+
+        <PropertyGroup>
+            <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
+        </PropertyGroup>
+
+        <ItemGroup Condition="'$(LocalEnvironment)' != ''">
+            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />
+            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />
+        </ItemGroup>
+        <ItemGroup Condition="'$(LocalEnvironment)' == ''">
+            <PackageReference Include="amiliur.security.shared" Version="1.*-*" />
+            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />
+        </ItemGroup>
+
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />-->
+<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />-->
+<!--    </ItemGroup>-->
 </Project>

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using amiliur.shared.Extensions;
+using amiliur.shared.Utils;
 using Serilog;
 
 namespace amiliur.shared.Reflection;
@@ -20,6 +22,17 @@ public static class PropertyUtils
     private static bool IsEnumerable(Type type)
     {
         return type.GetInterface(nameof(IEnumerable)) != null;
+    }
+
+    public static object GetPropertyValueNonNull(this object aClassObject, string propertyName)
+    {
+        var v = aClassObject.GetPropertyValue(propertyName);
+        if (v == null)
+        {
+            throw new ArgumentException($"Property {propertyName} of object {aClassObject.GetType().Name} is null");
+        }
+
+        return v;
     }
 
     public static object? GetPropertyValue(this object aClassObject, string propertyName)
@@ -182,10 +195,11 @@ public static class PropertyUtils
             }
             else
             {
-                pi.SetValue(aClassObject, value.ToString().Parse());
+                pi.SetValue(aClassObject, DateTimeUtils.ParseFromIso(value.ToString()));
             }
         }
     }
+
 
     private static bool SetPropertyValueNonGeneric(object aClassObject, object value, Type type, PropertyInfo pi)
     {
@@ -315,7 +329,7 @@ public static class PropertyUtils
     {
         if (!CanWriteIntoProperty(targetProperty))
             return;
-        
+
         if (sourceObj == null)
         {
             targetObj.SetPropertyValue(targetProperty.Name, null);

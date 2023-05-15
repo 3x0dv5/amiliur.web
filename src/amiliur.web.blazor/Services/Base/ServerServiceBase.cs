@@ -5,13 +5,13 @@ using System.Text.Json;
 using amiliur.shared.Extensions;
 using amiliur.shared.Json;
 using amiliur.web.blazor.Services.AppState;
-using amiliur.web.shared.Environments;
 using amiliur.web.shared.Filtering;
 using amiliur.web.shared.Models;
 using amiliur.web.shared.Models.Results;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace amiliur.web.blazor.Services.Base;
 
@@ -202,8 +202,51 @@ public abstract class ServerServiceBase : ServiceBase
         return await GetAll<T>();
     }
 
-    public async Task<TReturn> Save<TInput, TReturn>(TInput input, string targetPath = null,
-        bool handleException = true) where TReturn : class
+    public async Task<TReturn?> PostRetrieveAsync<TInput, TReturn>(TInput input, string? targetPath = null, bool passErrorToAppStateService = true) where TReturn : class
+    {
+        if (targetPath == null)
+        {
+            targetPath = ActionUrl("search");
+        }
+        else if (!targetPath.StartsWith("api/")) // the target path is the relative path to the api 
+        {
+            targetPath = ActionUrl(targetPath);
+        }
+
+        Log.Debug("PostRetrieveAsync: {targetPath}", targetPath);
+        var response = await httpClient.PostAsJsonAsync(targetPath, input, options: GetJsonOptions());
+        try
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<TReturn>(options: GetJsonOptions());
+                if (result != null)
+                    return result;
+
+                throw new Exception($"Ocorreu um erro: Result retrieved is null"); // todo: translate
+            }
+
+            var error = await response.Content.ReadFromJsonAsync<ErrorSaveResult>(options: GetJsonOptions());
+            if (typeof(TReturn).Name == "SaveBaseResult" && error != null)
+                return error as TReturn;
+
+            if (error != null)
+                throw new Exception(error.ErrorMessage);
+            throw new Exception("Ocorreu um erro");
+        }
+        catch (Exception e)
+        {
+            if (passErrorToAppStateService)
+            {
+                AppStateService.ErrorMessage = e.Message;
+                return default;
+            }
+
+            throw;
+        }
+    }
+
+    public async Task<TReturn?> Save<TInput, TReturn>(TInput input, string? targetPath = null, bool handleException = true) where TReturn : class
     {
         ClearCache();
 
@@ -216,34 +259,9 @@ public abstract class ServerServiceBase : ServiceBase
             targetPath = ActionUrl(targetPath);
         }
 
-        var response = await httpClient.PostAsJsonAsync(targetPath, input, options: GetJsonOptions());
-
-        try
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<TReturn>(options: GetJsonOptions());
-            }
-
-            var error = await response.Content.ReadFromJsonAsync<ErrorSaveResult>(options: GetJsonOptions());
-            if (typeof(TReturn).Name == "SaveBaseResult")
-                return error as TReturn;
-
-            if (error != null)
-                throw new Exception(error.ErrorMessage);
-            throw new Exception("Ocorreu um erro");
-        }
-        catch (Exception e)
-        {
-            if (handleException)
-            {
-                AppStateService.ErrorMessage = e.Message;
-                return default;
-            }
-
-            throw;
-        }
+        return await PostRetrieveAsync<TInput, TReturn>(input, targetPath, handleException);
     }
+
 
     public async Task<SaveBaseResult> Delete(string id)
     {

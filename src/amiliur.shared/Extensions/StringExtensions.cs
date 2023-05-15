@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Text;
+using System.Runtime;
 using System.Text.RegularExpressions;
+using amiliur.shared.Reflection;
 
 namespace amiliur.shared.Extensions;
 
@@ -18,7 +20,7 @@ public static class StringExtensions
 
         return string.Empty;
     }
-    
+
     public static string RemoveDiacritics(this string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -44,8 +46,8 @@ public static class StringExtensions
         str = Regex.Replace(str, @"[\s.]", "-"); // hyphens   
         return str;
     }
-    
-     /// <summary>
+
+    /// <summary>
     /// Returns the number of steps required to transform the source string
     /// into the target string.
     /// </summary>
@@ -103,4 +105,97 @@ public static class StringExtensions
         return (1.0 - ((double) stepsToSame / (double) Math.Max(source.Length, target.Length)));
     }
 
+    /// <summary>
+    /// extracts the name of the parameters in a template string
+    /// </summary>
+    /// <param name="urlString"></param>
+    /// <returns></returns>
+    public static string[] ExtractTemplateFields(this string urlString)
+    {
+        var argsFound = new List<string>();
+        var currentArgStarted = false;
+        var currentArg = new List<char>();
+
+        foreach (var c in urlString.ToCharArray())
+        {
+            if (!currentArgStarted && c == '{') // iniciou um novo arg
+            {
+                currentArgStarted = true;
+                currentArg = new List<char>();
+            }
+            else if (currentArgStarted)
+            {
+                if (c == '{')
+                    throw new InvalidReferenceTemplate(urlString);
+                if (c == '}')
+                {
+                    currentArgStarted = false;
+                    argsFound.Add(string.Join("", currentArg));
+                }
+                else
+                {
+                    currentArg.Add(c);
+                }
+            }
+        }
+
+        return argsFound.ToArray();
+    }
+
+    /// <summary>
+    /// Replaces the arguments in a template with the values of the properties of the `dataObj`.
+    /// </summary>
+    /// <param name="urlTemplate"></param>
+    /// <param name="dataObj"></param>
+    /// <returns></returns>
+    public static string ReplaceTemplateFields(this string urlTemplate, object dataObj)
+    {
+        var args = urlTemplate.ExtractTemplateFields();
+        var strResult = urlTemplate;
+
+        foreach (var s in args)
+        {
+            var val = dataObj.GetPropertyValue(s);
+            if (val == null)
+            {
+                strResult = strResult.Replace($"{{{s}}}", "null");
+            }
+            else
+            {
+                if (val is DateTime)
+                {
+                    strResult = strResult.Replace($"{{{s}}}", ((DateTime) val).ToString("s"));
+                }
+                else if (val is DateOnly)
+                {
+                    strResult = strResult.Replace($"{{{s}}}", ((DateOnly) val).ToDateTime(TimeOnly.MinValue).ToString("yyyy-MM-dd"));
+                }
+                else
+                {
+                    strResult = strResult.Replace($"{{{s}}}", val.ToString());
+                }
+            }
+        }
+
+        return strResult;
+    }
+
+    public static string[] SplitLines(this string str)
+    {
+        return Regex.Split(str, "\r\n|\r|\n");
+    }
+
+    public static string TrimLines(this string str)
+    {
+        var q = str.SplitLines();
+        return string.Join(' ', q.Select(m => m.Trim()).Where(m => !string.IsNullOrEmpty(m)))
+            .Replace("\r\n", "\n");
+    }
+}
+
+public class InvalidReferenceTemplate : Exception
+{
+    public InvalidReferenceTemplate(string template) : base(($"The string `{template}` is not a valid address reference."))
+    {
+    }
 }

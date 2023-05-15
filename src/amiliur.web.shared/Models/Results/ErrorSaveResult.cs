@@ -2,6 +2,8 @@ namespace amiliur.web.shared.Models.Results;
 
 public class ErrorSaveResult : SaveBaseResult
 {
+    public string ModelJson { get; set; } = null!;
+
     public ErrorSaveResult()
     {
         Success = false;
@@ -12,6 +14,7 @@ public class ErrorSaveResult : SaveBaseResult
         ErrorMessage = errorMessage;
         Success = false;
     }
+
     public ErrorSaveResult(Exception e)
     {
         ErrorMessage = e.Message;

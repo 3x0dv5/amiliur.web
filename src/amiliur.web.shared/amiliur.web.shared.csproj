@@ -80,5 +80,18 @@
 	<ItemGroup Condition="'$(LocalEnvironment)' == ''">
 		<PackageReference Include="amiliur.shared" Version="1.*-*" />
 	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="ExceptionMessages.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="ExceptionMessages.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ExceptionMessages.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 
 </Project>

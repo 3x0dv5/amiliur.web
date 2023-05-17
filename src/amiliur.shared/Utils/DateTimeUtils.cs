@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿using amiliur.shared.Extensions;
 
 namespace amiliur.shared.Utils;
 
@@ -9,6 +9,9 @@ public class DateTimeUtils
         if (isotime == null)
             return null;
 
+        return DateTime.Parse(isotime).WithUnspecifiedKind();
+
+        /*
         var provider = CultureInfo.InvariantCulture;
 
         // Check if isotime includes time or is date only
@@ -22,5 +25,6 @@ public class DateTimeUtils
             var format = "yyyy-MM-dd";
             return DateTime.SpecifyKind(DateTime.ParseExact(isotime, format, provider), DateTimeKind.Utc);
         }
+         */
     }
 }

@@ -226,9 +226,6 @@ public abstract class ServerServiceBase : ServiceBase
                 throw new Exception($"Ocorreu um erro: Result retrieved is null"); // todo: translate
             }
 
-                throw new Exception($"Ocorreu um erro: Result retrieved: {result}"); // todo: translate
-            }
-
             var error = await response.Content.ReadFromJsonAsync<ErrorSaveResult>(options: GetJsonOptions());
             if (typeof(TReturn).Name == "SaveBaseResult" && error != null)
                 return error as TReturn;

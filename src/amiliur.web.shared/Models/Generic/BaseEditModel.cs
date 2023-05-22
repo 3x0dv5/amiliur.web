@@ -7,7 +7,6 @@ public abstract class BaseEditModel : IEditableModel, ISerializableModel
 {
     protected BaseEditModel()
     {
-        Id = Guid.NewGuid().ToString();
     }
 
     protected BaseEditModel(string id)

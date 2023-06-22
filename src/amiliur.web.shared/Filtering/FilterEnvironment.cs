@@ -1,4 +1,4 @@
-﻿namespace amiliur.web.shared.Environments;
+﻿namespace amiliur.web.shared.Filtering;
 
 public enum FilterEnvironment
 {

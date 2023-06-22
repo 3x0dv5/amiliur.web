@@ -234,7 +234,7 @@ public static class DateUtils
         return false;
     }
 
-    public static TValue ConvertDateOnlyToTValue<TValue>(DateOnly? dateOnly)
+    public static TValue? ConvertDateOnlyToTValue<TValue>(DateOnly? dateOnly)
     {
         if (dateOnly == null)
             return default;
@@ -259,7 +259,7 @@ public static class DateUtils
         if (targetType == typeof(string))
         {
             var dateString = dateOnly.ToString();
-            return (TValue) (object) dateString;
+            return (TValue) (object) dateString!;
         }
 
         throw new InvalidOperationException($"Unsupported type '{targetType}' for TValue.");

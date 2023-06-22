@@ -31,18 +31,15 @@
 
     <ItemGroup>
 
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.0-preview.3.23177.8" />
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0-preview.5.23302.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.5.23302.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.0-preview.5.23302.2" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.0-preview.5.23302.2" />
         <PackageReference Include="Serilog.Enrichers.Context" Version="4.6.0" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.1-dev-10338" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="Microsoft.AspNetCore.WebUtilities">
-            <HintPath>..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.0-preview.2.23153.2\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
-        </Reference>
+        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+        <PackageReference Update="Nerdbank.GitVersioning">
+          <Version>3.6.133</Version>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
@@ -52,8 +49,12 @@
         </None>
     </ItemGroup>
 
-
-
+    <Target Name="PrintVariables" BeforeTargets="Build">
+        <Message Importance="high" Text="LocalEnvironment: $(LocalEnvironment)" />
+    </Target>
+    
+ 
+    
     <PropertyGroup>
         <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
     </PropertyGroup>

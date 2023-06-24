@@ -56,21 +56,21 @@
 
 
 
-        <PropertyGroup>
-            <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
-        </PropertyGroup>
+<!--        <PropertyGroup>-->
+<!--            <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
+<!--        </PropertyGroup>-->
 
-        <ItemGroup Condition="'$(LocalEnvironment)' != ''">
-            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />
-            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />
-        </ItemGroup>
-        <ItemGroup Condition="'$(LocalEnvironment)' == ''">
-            <PackageReference Include="amiliur.security.shared" Version="1.*-*" />
-            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />
-        </ItemGroup>
+<!--		<ItemGroup Condition="'$(LocalEnvironment)' == 'dev'">-->
+<!--            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />-->
+<!--            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />-->
+<!--        </ItemGroup>-->
+<!--		<ItemGroup Condition="'$(LocalEnvironment)' != 'dev'">-->
+<!--            <PackageReference Include="amiliur.security.shared" Version="1.*-*" />-->
+<!--            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />-->
+<!--        </ItemGroup>-->
 
-<!--    <ItemGroup>-->
-<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />-->
-<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />-->
-<!--    </ItemGroup>-->
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />
+        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />
+    </ItemGroup>
 </Project>

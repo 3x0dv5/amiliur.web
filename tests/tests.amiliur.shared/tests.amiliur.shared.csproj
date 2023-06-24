@@ -26,7 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\amiliur.fig-forms\src\amiliur.figforms.shared\amiliur.figforms.shared.csproj" />
         <ProjectReference Include="..\..\src\amiliur.shared\amiliur.shared.csproj" />
     </ItemGroup>
 

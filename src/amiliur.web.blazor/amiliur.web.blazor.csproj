@@ -40,7 +40,7 @@
         <PackageReference Update="Nerdbank.GitVersioning">
           <Version>3.6.133</Version>
         </PackageReference>
-        <PackageReference Include="Radzen.Blazor" Version="4.12.1" />
+        <PackageReference Include="Radzen.Blazor" Version="4.13.3" />
     </ItemGroup>
 
 	<ItemGroup>

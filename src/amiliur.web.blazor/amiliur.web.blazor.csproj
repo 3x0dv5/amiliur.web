@@ -83,7 +83,7 @@
 	<!--	    <PackageReference Include="Radzen.Blazor" Version="4.11.1" />-->
 	<!--    </ItemGroup>-->
 	<ItemGroup>
-		<PackageReference Include="Radzen.Blazor" Version="4.12.1" />
+		<PackageReference Include="Radzen.Blazor" Version="4.13.1" />
 	</ItemGroup>
 
 

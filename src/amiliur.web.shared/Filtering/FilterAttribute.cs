@@ -1,4 +1,4 @@
-﻿namespace amiliur.web.shared.Filtering;
+namespace amiliur.web.shared.Filtering;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class FilterAttribute : MappingAttribute

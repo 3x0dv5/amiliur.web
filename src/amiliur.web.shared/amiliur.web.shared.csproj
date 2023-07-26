@@ -24,6 +24,12 @@
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
+	<ItemGroup>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
     <!--	<PropertyGroup>-->
     <!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
     <!--	</PropertyGroup>-->
@@ -96,5 +102,6 @@
 	    <DependentUpon>ExceptionMessages.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
+	
 
 </Project>

@@ -1,5 +1,7 @@
-﻿namespace amiliur.web.shared.Models;
+﻿using amiliur.web.shared.Models.Generic;
 
-public interface IFormModel
+namespace amiliur.web.shared.Models;
+
+public interface IFormModel: ISearchResultModel
 {
 }

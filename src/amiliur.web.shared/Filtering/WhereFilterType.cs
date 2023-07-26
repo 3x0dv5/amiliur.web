@@ -108,5 +108,14 @@ public enum WhereFilterType
     /// <summary>
     /// The field is not null or empty
     /// </summary>
-    IsNotNullOrEmpty
+    IsNotNullOrEmpty,
+    
+    /// <summary>
+    /// for binary expressions
+    /// </summary>
+    And,
+    /// <summary>
+    /// for binary expressions
+    /// </summary>
+    Or,
 }

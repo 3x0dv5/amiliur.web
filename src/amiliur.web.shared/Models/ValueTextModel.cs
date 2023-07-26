@@ -2,8 +2,8 @@
 
 public class ValueTextModel<T>
 {
-    public T Value { get; set; }
-    public string Text { get; set; }
+    public T? Value { get; set; }
+    public string? Text { get; set; }
 }
 
 public class ValueTextModel : ValueTextModel<string>
@@ -19,8 +19,7 @@ public class ValueTextModel : ValueTextModel<string>
     }
 
     /// <summary>
-    /// Cria uma lista de meses backwards apartir do lastDay. O resultado vem como ValueTextModel [ MMMM yyyy , yyyy-MM ]
-    /// 
+    /// Generate a list of months from a given date. The result comes as ValueTextModel [ MMMM yyyy , yyyy-MM ]
     /// </summary>
     /// <param name="lastDay"></param>
     /// <param name="numMonths"></param>
@@ -38,21 +37,13 @@ public class ValueTextModel : ValueTextModel<string>
             loopDay = loopDay.AddDays(1);
         }
 
-        var firstMonthDays = new List<DateTime>();
-        foreach (var mTuple in months)
-        {
-            firstMonthDays.Add(new DateTime(mTuple.Item1, mTuple.Item2, 1));
-        }
+        var firstMonthDays = months
+            .Select(mTuple => new DateTime(mTuple.Item1, mTuple.Item2, 1))
+            .ToList();
 
-        var listValues = new List<ValueTextModel>();
-        foreach (var m in firstMonthDays)
-        {
-            listValues.Add(new ValueTextModel
-            {
-                Text = $"{m.ToString("MMMM yyyy")}",
-                Value = $"{m.ToString("yyyy-MM")}"
-            });
-        }
+        var listValues = firstMonthDays
+            .Select(m => new ValueTextModel {Text = $"{m:MMMM yyyy}", Value = $"{m:yyyy-MM}"})
+            .ToList();
 
         return listValues.OrderByDescending(m => m.Value).ToList();
     }

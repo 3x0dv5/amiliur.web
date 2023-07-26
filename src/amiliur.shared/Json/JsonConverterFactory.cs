@@ -21,7 +21,7 @@ public class DynamicFormJsonConverterFactory : JsonConverterFactory
         return $"{GetType().Namespace}.{typeToConvert.Name}JsonConverter, {GetType().Assembly.FullName}";
     }
 
-    private Type ConverterTypeOfBaseClass(Type type)
+    private Type? ConverterTypeOfBaseClass(Type type)
     {
         if (type.BaseType != null || type.BaseType == typeof(object))
             return Type.GetType(TypeConverterFullname(type.BaseType));
@@ -30,7 +30,7 @@ public class DynamicFormJsonConverterFactory : JsonConverterFactory
         return null;
     }
 
-    private Type ConverterType(Type typeToConvert)
+    private Type? ConverterType(Type typeToConvert)
     {
         return Type.GetType(TypeConverterFullname(typeToConvert));
     }
@@ -63,7 +63,7 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         return ReadObject(ref reader, typeToConvert);
     }
 
-    private Type ReadObjectType(Utf8JsonReader reader)
+    private Type? ReadObjectType(Utf8JsonReader reader)
     {
         while (reader.Read())
             if (reader.TokenType == JsonTokenType.PropertyName)
@@ -82,12 +82,13 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         return null;
     }
 
-    private ISerializableModel ReadObject(ref Utf8JsonReader reader, Type type)
+    private ISerializableModel? ReadObject(ref Utf8JsonReader reader, Type type)
     {
         ISerializableModel? obj = null;
         while (reader.Read())
         {
-            if (reader.TokenType == JsonTokenType.EndObject) return obj;
+            if (reader.TokenType == JsonTokenType.EndObject)
+                return obj;
 
             if (reader.TokenType == JsonTokenType.PropertyName)
             {
@@ -97,7 +98,9 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
                     reader.Read();
                     var objectType = reader.GetString();
 
-                    if (TypeIsNotImportant(type) || TypeIsTheRequestedType(type, objectType)) return CreateObject(ref reader, objectType);
+
+                    if (objectType != null && (TypeIsNotImportant(type) || TypeIsTheRequestedType(type, objectType)))
+                        return CreateObject(ref reader, objectType);
 
                     throw new JsonException($"Type: {type?.FullName} is not of the type in the json {objectType}");
                 }
@@ -135,7 +138,7 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         return typeName;
     }
 
-    private ISerializableModel CreateObject(ref Utf8JsonReader reader, string typeName)
+    private ISerializableModel? CreateObject(ref Utf8JsonReader reader, string typeName)
     {
         var objType = Type.GetType(typeName);
         if (objType == null)
@@ -204,7 +207,7 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("SerializableModelJsonConverter:CreateObject: " + e);
+                        Log.Error("SerializableModelJsonConverter:CreateObject: property name: {propertyName}, value: {value}. Exception: {e}", propertyName, value, e);
                         throw;
                     }
             }
@@ -260,9 +263,9 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         return value;
     }
 
-    private static bool PropertyIsMarkedAsJsonIgnore(ISerializableModel obj, string propertyName)
+    private static bool PropertyIsMarkedAsJsonIgnore(ISerializableModel? obj, string propertyName)
     {
-        return obj.GetProperty(propertyName).GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
+        return obj?.GetProperty(propertyName)?.GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
     }
 
     private IEnumerable<object> ReadArray(ref Utf8JsonReader reader)

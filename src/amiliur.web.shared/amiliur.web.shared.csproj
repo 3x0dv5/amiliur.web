@@ -24,13 +24,13 @@
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
-	<ItemGroup>
-		
-    
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Update="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
     <!--	<PropertyGroup>-->
     <!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
     <!--	</PropertyGroup>-->
@@ -58,24 +58,23 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedResource Update="ExceptionMessages.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="ExceptionMessages.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ExceptionMessages.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Update="ExceptionMessages.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup> 
-	  <Compile Update="ExceptionMessages.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ExceptionMessages.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-<!--	<PropertyGroup>-->
-<!--		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
-<!--	</PropertyGroup>-->
+	<PropertyGroup>
+		<LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
+	</PropertyGroup>
 
 <!--	<ItemGroup Condition="'$(LocalEnvironment)' == 'dev'">-->
 <!--		<ProjectReference Include="..\..\..\amiliur.web\src\amiliur.shared\amiliur.shared.csproj" />-->
@@ -84,29 +83,14 @@
 <!--		<PackageReference Include="amiliur.shared" Version="1.*-*" />-->
 <!--	</ItemGroup>-->
 
-	<ItemGroup Condition="'$(LocalEnvironment)' != ''">
-		<ProjectReference Include="..\..\..\amiliur.web\src\amiliur.shared\amiliur.shared.csproj" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(LocalEnvironment)' == ''">
-		<PackageReference Include="amiliur.shared" Version="1.*-*" />
-	</ItemGroup>
-	<ItemGroup>
-	  <EmbeddedResource Update="ExceptionMessages.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Update="ExceptionMessages.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ExceptionMessages.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-	
+   
 
-	<ItemGroup>
-	  <ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
-	</ItemGroup>
+    <ItemGroup Condition="'$(LocalEnvironment)' != ''">
+        <ProjectReference Include="..\amiliur.shared\amiliur.shared.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(LocalEnvironment)' == ''">
+        <PackageReference Include="amiliur.shared" Version="1.*-*"/>
+    </ItemGroup>
+    
 
 </Project>

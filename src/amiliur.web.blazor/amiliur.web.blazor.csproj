@@ -76,6 +76,6 @@
         <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj"/>
         <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj"/>
     </ItemGroup>
-
+  
 </Project>
  

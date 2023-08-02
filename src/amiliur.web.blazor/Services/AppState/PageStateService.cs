@@ -15,7 +15,6 @@ public class PageStateService : IDisposable
     private CacheManager GetDataForService(Type serviceOrPageType)
     {
         var serviceName = serviceOrPageType.FullName;
-        Console.WriteLine($"GetDataForService serviceName: {serviceName}");
         if (string.IsNullOrEmpty(serviceName))
             serviceName = serviceOrPageType.Name;
 
@@ -54,7 +53,8 @@ public class PageStateService : IDisposable
         return theData;
     }
 
-    public T GetData<T>(Type serviceOrPageType, string dataSetName, TimeSpan lifeTime, Func<T> callOnMissFunc) where T : class
+    public T GetData<T>(Type serviceOrPageType, string dataSetName, TimeSpan lifeTime, Func<T> callOnMissFunc)
+        where T : class
     {
         Console.WriteLine($"GetData: {serviceOrPageType.Name} - {dataSetName}");
 
@@ -77,7 +77,8 @@ public class PageStateService : IDisposable
         return dataForDataset;
     }
 
-    public async Task<T> GetData<T>(Type serviceOrPageType, string dataSetName, TimeSpan lifeTime, Func<Task<T>> callOnMissFunc) where T : class
+    public async Task<T> GetData<T>(Type serviceOrPageType, string dataSetName, TimeSpan lifeTime,
+        Func<Task<T>> callOnMissFunc) where T : class
     {
         var dataForDataset = GetData<T>(serviceOrPageType, dataSetName);
 
@@ -112,9 +113,9 @@ public class PageStateService : IDisposable
         return Guid.NewGuid().ToString("N");
     }
 
-    public void SetCrossPageData<T>(string id, TimeSpan lifeTime, T theData)
+    public void SetCrossPageData<T>(string id, TimeSpan lifeTime, T theData, Type dataType)
     {
-        SetData(theData.GetType(), id, lifeTime, theData);
+        SetData(dataType, id, lifeTime, theData);
     }
 
     public T GetCrossPageData<T>(string id) where T : class
@@ -126,54 +127,46 @@ public class PageStateService : IDisposable
 public class CacheManager
 {
     public string ServiceName { get; set; }
-    private Dictionary<string, CacheObject> _cacheObjects = new Dictionary<string, CacheObject>();
+    private Dictionary<string, CacheObject> _cacheObjects = new();
 
     public CacheManager(string serviceName)
     {
         ServiceName = serviceName;
     }
 
-    public T GetValue<T>(string objectId) where T : class
+    public T? GetValue<T>(string objectId) where T : class
     {
-        Console.WriteLine($"CacheManager:GetValue: {objectId}");
-
-        var cObj = _cacheObjects.GetValueOrDefault(objectId, null);
+        var cObj = _cacheObjects!.GetValueOrDefault(objectId, null);
         if (cObj == null)
         {
-            Console.WriteLine($"CacheManager:GetValue: {objectId} - NOT FOUND");
             return null;
         }
 
-        Console.WriteLine($"CacheManager:GetValue: {objectId} - FOUND");
         if (DateTime.Now < cObj.Expires)
         {
-            Console.WriteLine($"CacheManager:GetValue: {objectId} - NOT EXPIRED YET");
-            return (T) cObj.Data;
+            return (T)cObj.Data;
         }
 
-        Console.WriteLine($"CacheManager:GetValue: {objectId} - EXPIRED");
         _cacheObjects.Remove(objectId);
         return null;
     }
 
-    public void SetData(string objectId, object data, TimeSpan lifeTime)
+    public void SetData(string objectId, object? data, TimeSpan lifeTime)
     {
         var cObj = new CacheObject(objectId, lifeTime, data);
         _cacheObjects[objectId] = cObj;
     }
 
-    public void ClearData(string objectId)
+    public void ClearData(string? objectId)
     {
         if (objectId == null)
         {
-            Console.WriteLine("Clearing all cache");
             _cacheObjects = new Dictionary<string, CacheObject>();
             return;
         }
 
         if (_cacheObjects.ContainsKey(objectId))
         {
-            Console.WriteLine($"Clearing cache for {objectId}");
             _cacheObjects.Remove(objectId);
         }
     }
@@ -184,23 +177,21 @@ public class CacheObject : IEquatable<CacheObject>
     public string ObjectId { get; set; }
     public DateTime Created { get; set; }
     public DateTime Expires { get; set; }
-    public object Data { get; set; }
+    public object? Data { get; set; }
 
-    public CacheObject(string objectId, TimeSpan lifeTime, object data)
+    public CacheObject(string objectId, TimeSpan lifeTime, object? data)
     {
         ObjectId = objectId;
         Created = DateTime.Now;
-        if (lifeTime == TimeSpan.MaxValue)
-            Expires = new DateTime(3000, 1, 1);
-        else
-            Expires = Created.Add(lifeTime);
+        Expires = lifeTime == TimeSpan.MaxValue
+            ? new DateTime(3000, 1, 1)
+            : Created.Add(lifeTime);
+
         Data = data;
     }
 
     public bool Equals(CacheObject? other)
     {
-        if (other == null)
-            return false;
-        return ObjectId.Equals(other.ObjectId);
+        return other != null && ObjectId.Equals(other.ObjectId);
     }
 }

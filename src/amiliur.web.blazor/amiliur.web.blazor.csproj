@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -35,14 +35,14 @@
     <ItemGroup>
         <SupportedPlatform Include="browser"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="Radzen.Blazor" Version="4.14.4" />
+        <PackageReference Include="Radzen.Blazor" Version="4.14.4"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
-        <PackageReference Include="Serilog.Enrichers.Context" Version="4.6.5" />
+        <PackageReference Include="Serilog.Enrichers.Context" Version="4.6.5"/>
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0"/>
         <PackageReference Update="Nerdbank.GitVersioning">
             <Version>3.6.133</Version>
@@ -54,28 +54,25 @@
     </Target>
 
 
-    <!--        <PropertyGroup>-->
-    <!--            <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>-->
-    <!--        </PropertyGroup>-->
+    <PropertyGroup>
+        <LocalEnvironment Condition="'$(LocalEnvironment)' == ''">$(LOCAL_ENVIRONMENT_REFERENCE_PROJECTS)</LocalEnvironment>
+    </PropertyGroup>
 
-    <!--		<ItemGroup Condition="'$(LocalEnvironment)' == 'dev'">-->
-    <!--            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />-->
-    <!--            <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />-->
-    <!--        </ItemGroup>-->
-    <!--		<ItemGroup Condition="'$(LocalEnvironment)' != 'dev'">-->
-    <!--            <PackageReference Include="amiliur.security.shared" Version="1.*-*" />-->
-    <!--            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />-->
-    <!--        </ItemGroup>-->
 
-<!--    <ItemGroup>-->
-<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj"/>-->
-<!--        <ProjectReference Include="..\..\..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj"/>-->
-<!--    </ItemGroup>-->
-    
     <ItemGroup>
         <ProjectReference Include="..\amiliur.web.shared\amiliur.web.shared.csproj"/>
         <ProjectReference Include="..\amiliur.security.shared\amiliur.security.shared.csproj"/>
     </ItemGroup>
-  
+
+    <!--		<ItemGroup Condition="'$(LocalEnvironment)' != ''">-->
+    <!--            <ProjectReference Include="..\amiliur.web\src\amiliur.web.shared\amiliur.web.shared.csproj" />-->
+    <!--            <ProjectReference Include="..\amiliur.web\src\amiliur.security.shared\amiliur.security.shared.csproj" />-->
+    <!--        </ItemGroup>-->
+    <!--		<ItemGroup Condition="'$(LocalEnvironment)' == ''">-->
+    <!--            <PackageReference Include="amiliur.security.shared" Version="1.*-*" />-->
+    <!--            <PackageReference Include="amiliur.web.shared" Version="1.*-*" />-->
+    <!--        </ItemGroup>-->
+
+
 </Project>
  

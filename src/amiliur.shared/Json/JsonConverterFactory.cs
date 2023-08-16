@@ -144,61 +144,20 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         if (objType == null)
             throw new Exception($"Typename: {typeName} does not look right");
 
-        var obj = (ISerializableModel) Activator.CreateInstance(objType);
+        var obj = (ISerializableModel)Activator.CreateInstance(objType);
 
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject) return obj;
 
             var propertyName = "";
-            object value = null;
+            object? value = null;
             if (reader.TokenType == JsonTokenType.PropertyName)
             {
                 propertyName = reader.GetString();
                 reader.Read();
 
-                var tk = reader.TokenType;
-                switch (tk)
-                {
-                    case JsonTokenType.None:
-                        throw new NotSupportedException($"JsonTokenType.None: {propertyName}");
-                        break;
-                    case JsonTokenType.StartObject:
-                        value = ReadObject(ref reader, null);
-                        break;
-                    case JsonTokenType.EndObject:
-                        throw new NotSupportedException($"JsonTokenType.EndObject: {propertyName}");
-                        break;
-                    case JsonTokenType.StartArray:
-                        value = ReadArray(ref reader);
-                        break;
-                    case JsonTokenType.EndArray:
-                        throw new NotSupportedException($"JsonTokenType.EndArray: {propertyName}");
-                    case JsonTokenType.PropertyName:
-                        throw new NotSupportedException($"JsonTokenType.PropertyName: {propertyName}");
-                    case JsonTokenType.String:
-                        value = reader.GetString();
-                        if (propertyName == "GenericType")
-                            value = Type.GetType((string) value ?? string.Empty);
-                        else
-                            value = ReadProperty(obj, propertyName, value?.ToString());
-
-                        break;
-                    case JsonTokenType.Number:
-                        value = ReadNumberProperty(obj, propertyName, ref reader);
-                        break;
-                    case JsonTokenType.True:
-                        value = reader.GetBoolean();
-                        break;
-                    case JsonTokenType.False:
-                        value = reader.GetBoolean();
-                        break;
-                    case JsonTokenType.Null:
-                        value = null;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                value = ReadValue(ref reader, propertyName, obj);
 
                 if (!PropertyIsMarkedAsJsonIgnore(obj, propertyName) && obj.GetProperty(propertyName).CanWrite)
                     try
@@ -214,6 +173,57 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         }
 
         return obj;
+    }
+
+    private object? ReadValue(ref Utf8JsonReader reader, string? propertyName, ISerializableModel? obj)
+    {
+        object? value;
+        var tk = reader.TokenType;
+        switch (tk)
+        {
+            case JsonTokenType.None:
+                throw new NotSupportedException($"JsonTokenType.None: {propertyName}");
+                break;
+            case JsonTokenType.StartObject:
+                value = ReadObject(ref reader, null);
+                break;
+            case JsonTokenType.EndObject:
+                throw new NotSupportedException($"JsonTokenType.EndObject: {propertyName}");
+            case JsonTokenType.StartArray:
+                value = ReadArray(ref reader);
+                break;
+            case JsonTokenType.EndArray:
+                throw new NotSupportedException($"JsonTokenType.EndArray: {propertyName}");
+            case JsonTokenType.PropertyName:
+                throw new NotSupportedException($"JsonTokenType.PropertyName: {propertyName}");
+            case JsonTokenType.String:
+                value = reader.GetString();
+                if (obj != null)
+                {
+                    if (propertyName == "GenericType")
+                        value = Type.GetType((string)value ?? string.Empty);
+                    else
+                        value = ReadProperty(obj, propertyName, value?.ToString());
+                }
+
+                break;
+            case JsonTokenType.Number:
+                value = ReadNumberProperty(obj, propertyName, ref reader);
+                break;
+            case JsonTokenType.True:
+                value = reader.GetBoolean();
+                break;
+            case JsonTokenType.False:
+                value = reader.GetBoolean();
+                break;
+            case JsonTokenType.Null:
+                value = null;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return value;
     }
 
     private object ReadNumberProperty(ISerializableModel model, string p, ref Utf8JsonReader reader)
@@ -268,16 +278,22 @@ public class SerializableModelJsonConverter : JsonConverter<ISerializableModel>
         return obj?.GetProperty(propertyName)?.GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
     }
 
-    private IEnumerable<object> ReadArray(ref Utf8JsonReader reader)
+    private IEnumerable<object?> ReadArray(ref Utf8JsonReader reader)
     {
-        var array = new List<object>();
+        var array = new List<object?>();
         while (reader.Read())
         {
-            if (reader.TokenType == JsonTokenType.EndArray) return array;
+            if (reader.TokenType == JsonTokenType.EndArray)
+                return array;
 
             if (reader.TokenType == JsonTokenType.StartObject)
             {
                 var obj = ReadObject(ref reader, null);
+                array.Add(obj);
+            }
+            else
+            {
+                var obj = ReadValue(ref reader, null, null);
                 array.Add(obj);
             }
         }

@@ -2,12 +2,15 @@
 
 public class ValueTextModel<T>
 {
-    public T? Value { get; set; }
-    public string? Text { get; set; }
+    public T Value { get; set; } = default!;
+    public string Text { get; set; } = "";
 }
 
-public class ValueTextModel : ValueTextModel<string>
+public class ValueTextModel
 {
+    public string Value { get; set; } = "";
+    public string Text { get; set; } = "";
+
     public ValueTextModel()
     {
     }
@@ -42,7 +45,7 @@ public class ValueTextModel : ValueTextModel<string>
             .ToList();
 
         var listValues = firstMonthDays
-            .Select(m => new ValueTextModel {Text = $"{m:MMMM yyyy}", Value = $"{m:yyyy-MM}"})
+            .Select(m => new ValueTextModel { Text = $"{m:MMMM yyyy}", Value = $"{m:yyyy-MM}" })
             .ToList();
 
         return listValues.OrderByDescending(m => m.Value).ToList();

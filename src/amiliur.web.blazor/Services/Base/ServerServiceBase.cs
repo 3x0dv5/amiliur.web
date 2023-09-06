@@ -99,7 +99,7 @@ public abstract class ServerServiceBase : ServiceBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error("GetJson: {0}", e.Message);
             AppStateService.ErrorMessage = e.Message;
             return default;
         }
